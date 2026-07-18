@@ -16,6 +16,18 @@ export async function PUT(request: Request) {
     );
   }
 
-  await writeContent(body);
+  try {
+    await writeContent(body);
+  } catch (err) {
+    console.error("Failed to write content to Vercel KV:", err);
+    return NextResponse.json(
+      {
+        error:
+          "บันทึกข้อมูลไม่สำเร็จ กรุณาตรวจสอบการตั้งค่า Vercel KV (KV_REST_API_URL / KV_REST_API_TOKEN)",
+      },
+      { status: 500 },
+    );
+  }
+
   return NextResponse.json({ ok: true, content: body });
 }

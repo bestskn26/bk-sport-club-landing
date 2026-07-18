@@ -4,7 +4,12 @@ export type ProcessedImage = {
   filename: string;
 };
 
-const LOGO_HEIGHT = 56;
+// Logo display height is configurable per-placement (Navbar/Footer, 32-120px)
+// from /admin/settings, so the master image is stored large enough to stay
+// sharp at up to 120px height on a 2x (retina) screen, not resized to a
+// single fixed height like before.
+const MAX_LOGO_HEIGHT = 240;
+const MAX_LOGO_WIDTH = 960;
 const FAVICON_SIZE = 32;
 
 export async function processLogoFile(file: File): Promise<ProcessedImage> {
@@ -19,14 +24,20 @@ export async function processLogoFile(file: File): Promise<ProcessedImage> {
   }
 
   const img = await loadImage(file);
-  const scale = LOGO_HEIGHT / img.naturalHeight;
+  // Only downscale (never upscale) oversized source images, fit within box.
+  const scale = Math.min(
+    MAX_LOGO_HEIGHT / img.naturalHeight,
+    MAX_LOGO_WIDTH / img.naturalWidth,
+    1,
+  );
   const width = Math.max(1, Math.round(img.naturalWidth * scale));
+  const height = Math.max(1, Math.round(img.naturalHeight * scale));
 
   const canvas = document.createElement("canvas");
   canvas.width = width;
-  canvas.height = LOGO_HEIGHT;
+  canvas.height = height;
   const ctx = getContext(canvas);
-  ctx.drawImage(img, 0, 0, width, LOGO_HEIGHT);
+  ctx.drawImage(img, 0, 0, width, height);
 
   const blob = await canvasToBlob(canvas);
   return {

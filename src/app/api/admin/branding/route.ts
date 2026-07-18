@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { del, put } from "@vercel/blob";
-import { readBranding, writeBranding, type BrandingContent } from "@/lib/branding";
+import {
+  clampLogoHeight,
+  readBranding,
+  writeBranding,
+  type BrandingContent,
+} from "@/lib/branding";
 
 const KINDS = ["logo", "favicon"] as const;
 type Kind = (typeof KINDS)[number];
@@ -9,7 +14,7 @@ function isKind(value: unknown): value is Kind {
   return typeof value === "string" && (KINDS as readonly string[]).includes(value);
 }
 
-function fieldFor(kind: Kind): keyof BrandingContent {
+function fieldFor(kind: Kind): "logoUrl" | "faviconUrl" {
   return kind === "logo" ? "logoUrl" : "faviconUrl";
 }
 
@@ -74,6 +79,45 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ ok: true, url: uploaded.url });
+}
+
+export async function PUT(request: Request) {
+  const body = (await request.json().catch(() => null)) as {
+    navbarLogoHeight?: unknown;
+    footerLogoHeight?: unknown;
+  } | null;
+
+  if (!body) {
+    return NextResponse.json({ error: "ข้อมูลไม่ถูกต้อง" }, { status: 400 });
+  }
+
+  const branding = await readBranding();
+  const updated: BrandingContent = {
+    ...branding,
+    navbarLogoHeight:
+      body.navbarLogoHeight !== undefined
+        ? clampLogoHeight(body.navbarLogoHeight, branding.navbarLogoHeight)
+        : branding.navbarLogoHeight,
+    footerLogoHeight:
+      body.footerLogoHeight !== undefined
+        ? clampLogoHeight(body.footerLogoHeight, branding.footerLogoHeight)
+        : branding.footerLogoHeight,
+  };
+
+  try {
+    await writeBranding(updated);
+  } catch (err) {
+    console.error("Failed to write branding to Vercel KV:", err);
+    return NextResponse.json(
+      {
+        error:
+          "บันทึกข้อมูลไม่สำเร็จ กรุณาตรวจสอบการตั้งค่า Vercel KV (KV_REST_API_URL / KV_REST_API_TOKEN)",
+      },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json(updated);
 }
 
 export async function DELETE(request: Request) {

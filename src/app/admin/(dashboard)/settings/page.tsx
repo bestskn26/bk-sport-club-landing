@@ -3,9 +3,13 @@
 import { useEffect, useState } from "react";
 import type { BrandingContent } from "@/lib/branding";
 import BrandingEditor from "@/components/admin/BrandingEditor";
+import LogoSizeEditor from "@/components/admin/LogoSizeEditor";
 
 export default function AdminSettingsPage() {
   const [branding, setBranding] = useState<BrandingContent | null>(null);
+  const [pendingLogoPreview, setPendingLogoPreview] = useState<string | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
 
@@ -47,12 +51,24 @@ export default function AdminSettingsPage() {
         <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8">
           <BrandingEditor
             kind="logo"
-            title="Logo (แสดงใน Navbar)"
-            description="รองรับ PNG, JPG, SVG — ระบบจะปรับขนาดความสูงเป็น 56px โดยรักษาสัดส่วนภาพอัตโนมัติ"
+            title="Logo (แสดงใน Navbar และ Footer)"
+            description="รองรับ PNG, JPG, SVG — ระบบจะปรับขนาดภาพให้เหมาะสมโดยรักษาสัดส่วนภาพอัตโนมัติ (กำหนดความสูงที่แสดงจริงได้ด้านล่าง)"
             accept="image/png,image/jpeg,image/svg+xml"
             currentUrl={branding.logoUrl}
             onUpdated={(url) =>
               setBranding((prev) => (prev ? { ...prev, logoUrl: url } : prev))
+            }
+            onPendingPreviewChange={setPendingLogoPreview}
+          />
+        </div>
+
+        <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8">
+          <LogoSizeEditor
+            logoPreviewUrl={pendingLogoPreview ?? branding.logoUrl}
+            navbarLogoHeight={branding.navbarLogoHeight}
+            footerLogoHeight={branding.footerLogoHeight}
+            onSaved={(sizes) =>
+              setBranding((prev) => (prev ? { ...prev, ...sizes } : prev))
             }
           />
         </div>

@@ -7,19 +7,39 @@ function telHref(phone: string) {
   return `tel:${phone.replace(/[^0-9+]/g, "")}`;
 }
 
-export default function Footer({ contact }: { contact: ContactContent }) {
+export default function Footer({
+  contact,
+  logoUrl,
+  logoHeight = 40,
+}: {
+  contact: ContactContent;
+  logoUrl?: string | null;
+  logoHeight?: number;
+}) {
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-slate-300">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <a href="#" className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
-                <Trophy size={18} />
-              </span>
-              <span className="text-lg font-bold text-white">
-                BK Sport Club
-              </span>
+              {logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element -- remote/blob logo URL, not optimizable via next/image
+                <img
+                  src={logoUrl}
+                  alt="BK Sport Club"
+                  style={{ height: logoHeight }}
+                  className="w-auto"
+                />
+              ) : (
+                <>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
+                    <Trophy size={18} />
+                  </span>
+                  <span className="text-lg font-bold text-white">
+                    BK Sport Club
+                  </span>
+                </>
+              )}
             </a>
             <p className="mt-4 text-sm leading-relaxed text-slate-400">
               ระบบจองสนามกีฬาออนไลน์ครบวงจร สำหรับผู้ประกอบการที่ต้องการบริหารสนามอย่างมืออาชีพ

@@ -17,6 +17,7 @@ export default function BrandingEditor({
   accept,
   currentUrl,
   onUpdated,
+  onPendingPreviewChange,
 }: {
   kind: BrandingKind;
   title: string;
@@ -24,6 +25,7 @@ export default function BrandingEditor({
   accept: string;
   currentUrl: string | null;
   onUpdated: (url: string | null) => void;
+  onPendingPreviewChange?: (url: string | null) => void;
 }) {
   const [pending, setPending] = useState<ProcessedImage | null>(null);
   const [saving, setSaving] = useState(false);
@@ -42,6 +44,7 @@ export default function BrandingEditor({
           ? await processLogoFile(file)
           : await processFaviconFile(file);
       setPending(processed);
+      onPendingPreviewChange?.(processed.previewUrl);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "ไม่สามารถประมวลผลรูปภาพได้",
@@ -52,6 +55,7 @@ export default function BrandingEditor({
   function handleCancelPending() {
     setPending(null);
     setError("");
+    onPendingPreviewChange?.(null);
   }
 
   async function handleSave() {
@@ -73,6 +77,7 @@ export default function BrandingEditor({
 
       onUpdated(data.url as string);
       setPending(null);
+      onPendingPreviewChange?.(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "อัปโหลดไม่สำเร็จ");
     } finally {

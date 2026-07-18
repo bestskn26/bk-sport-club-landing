@@ -17,14 +17,18 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar logoUrl={branding.logoUrl} />
+      <Navbar logoUrl={branding.logoUrl} logoHeight={branding.navbarLogoHeight} />
       <main className="flex-1">
         <Hero hero={content.hero} />
         <Features features={content.features} />
         <Pricing plans={content.pricing} />
         <ContactSection contact={content.contact} />
       </main>
-      <Footer contact={content.contact} />
+      <Footer
+        contact={content.contact}
+        logoUrl={branding.logoUrl}
+        logoHeight={branding.footerLogoHeight}
+      />
     </>
   );
 }

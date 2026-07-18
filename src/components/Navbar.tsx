@@ -9,7 +9,13 @@ const NAV_LINKS = [
   { href: "#contact", label: "ติดต่อเรา" },
 ];
 
-export default function Navbar({ logoUrl }: { logoUrl?: string | null }) {
+export default function Navbar({
+  logoUrl,
+  logoHeight = 56,
+}: {
+  logoUrl?: string | null;
+  logoHeight?: number;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -18,7 +24,12 @@ export default function Navbar({ logoUrl }: { logoUrl?: string | null }) {
         <a href="#" className="flex items-center gap-2">
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element -- remote/blob logo URL, not optimizable via next/image
-            <img src={logoUrl} alt="BK Sport Club" className="h-14 w-auto" />
+            <img
+              src={logoUrl}
+              alt="BK Sport Club"
+              style={{ height: logoHeight }}
+              className="w-auto"
+            />
           ) : (
             <>
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">

@@ -9,19 +9,26 @@ const NAV_LINKS = [
   { href: "#contact", label: "ติดต่อเรา" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ logoUrl }: { logoUrl?: string | null }) {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <a href="#" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
-            <Trophy size={20} />
-          </span>
-          <span className="text-lg font-bold tracking-tight text-slate-900">
-            BK Sport Club
-          </span>
+          {logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element -- remote/blob logo URL, not optimizable via next/image
+            <img src={logoUrl} alt="BK Sport Club" className="h-14 w-auto" />
+          ) : (
+            <>
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
+                <Trophy size={20} />
+              </span>
+              <span className="text-lg font-bold tracking-tight text-slate-900">
+                BK Sport Club
+              </span>
+            </>
+          )}
         </a>
 
         <div className="hidden items-center gap-8 md:flex">

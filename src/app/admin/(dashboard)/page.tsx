@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  CheckCircle2,
-  ExternalLink,
-  LogOut,
-  Save,
-  Trophy,
-} from "lucide-react";
+import { CheckCircle2, Save } from "lucide-react";
 import type { SiteContent } from "@/lib/content";
 import HeroEditor from "@/components/admin/HeroEditor";
 import FeaturesEditor from "@/components/admin/FeaturesEditor";
@@ -24,8 +17,7 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-export default function AdminPage() {
-  const router = useRouter();
+export default function AdminContentPage() {
   const [content, setContent] = useState<SiteContent | null>(null);
   const [activeTab, setActiveTab] = useState<TabId>("hero");
   const [loading, setLoading] = useState(true);
@@ -74,15 +66,9 @@ export default function AdminPage() {
     }
   }
 
-  async function handleLogout() {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
-    router.refresh();
-  }
-
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex min-h-screen items-center justify-center">
         <p className="text-sm text-slate-500">กำลังโหลดข้อมูล...</p>
       </div>
     );
@@ -90,7 +76,7 @@ export default function AdminPage() {
 
   if (!content) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex min-h-screen items-center justify-center">
         <p className="text-sm text-red-600">
           {message?.text ?? "ไม่สามารถโหลดข้อมูลได้"}
         </p>
@@ -99,46 +85,20 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div>
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
-              <Trophy size={18} />
-            </span>
-            <span className="text-lg font-bold text-slate-900">
-              BK Sport Club Admin
-            </span>
-          </div>
+          <h1 className="text-lg font-bold text-slate-900">เนื้อหาเว็บไซต์</h1>
 
-          <div className="flex items-center gap-3">
-            <a
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-primary"
-            >
-              ดูหน้าเว็บ
-              <ExternalLink size={14} />
-            </a>
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={saving}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-primary/30 transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              <Save size={16} />
-              {saving ? "กำลังบันทึก..." : "บันทึกการเปลี่ยนแปลง"}
-            </button>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:border-red-200 hover:text-red-600"
-            >
-              <LogOut size={16} />
-              ออกจากระบบ
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-primary/30 transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            <Save size={16} />
+            {saving ? "กำลังบันทึก..." : "บันทึกการเปลี่ยนแปลง"}
+          </button>
         </div>
 
         {message && (

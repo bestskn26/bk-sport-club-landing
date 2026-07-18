@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { readBranding } from "@/lib/branding";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,25 +13,32 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "BK Sport Club — ระบบจองสนามกีฬาออนไลน์ครบวงจร",
-  description:
-    "แพลตฟอร์มจองสนามกีฬาออนไลน์สำหรับผู้ประกอบการสนามกีฬา รองรับ 11 ประเภทกีฬา ชำระเงินผ่าน PromptPay ระบบหลังบ้านครบวงจร พร้อม POS, CRM และรองรับหลายสาขา",
-  keywords: [
-    "จองสนามกีฬา",
-    "ระบบจองสนาม",
-    "BK Sport Club",
-    "sport booking system",
-    "จองสนามออนไลน์",
-  ],
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  const branding = await readBranding();
+
+  return {
     title: "BK Sport Club — ระบบจองสนามกีฬาออนไลน์ครบวงจร",
     description:
-      "บริหารจัดการสนามกีฬาของคุณอย่างมืออาชีพ จองออนไลน์ 24 ชม. ชำระเงินง่าย มีระบบหลังบ้านครบ",
-    locale: "th_TH",
-    type: "website",
-  },
-};
+      "แพลตฟอร์มจองสนามกีฬาออนไลน์สำหรับผู้ประกอบการสนามกีฬา รองรับ 11 ประเภทกีฬา ชำระเงินผ่าน PromptPay ระบบหลังบ้านครบวงจร พร้อม POS, CRM และรองรับหลายสาขา",
+    keywords: [
+      "จองสนามกีฬา",
+      "ระบบจองสนาม",
+      "BK Sport Club",
+      "sport booking system",
+      "จองสนามออนไลน์",
+    ],
+    openGraph: {
+      title: "BK Sport Club — ระบบจองสนามกีฬาออนไลน์ครบวงจร",
+      description:
+        "บริหารจัดการสนามกีฬาของคุณอย่างมืออาชีพ จองออนไลน์ 24 ชม. ชำระเงินง่าย มีระบบหลังบ้านครบ",
+      locale: "th_TH",
+      type: "website",
+    },
+    ...(branding.faviconUrl
+      ? { icons: { icon: branding.faviconUrl } }
+      : {}),
+  };
+}
 
 export default function RootLayout({
   children,

@@ -5,15 +5,19 @@ import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Pricing from "@/components/Pricing";
 import { readContent } from "@/lib/content";
+import { readBranding } from "@/lib/branding";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const content = await readContent();
+  const [content, branding] = await Promise.all([
+    readContent(),
+    readBranding(),
+  ]);
 
   return (
     <>
-      <Navbar />
+      <Navbar logoUrl={branding.logoUrl} />
       <main className="flex-1">
         <Hero hero={content.hero} />
         <Features features={content.features} />

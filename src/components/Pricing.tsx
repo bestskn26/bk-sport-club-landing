@@ -1,60 +1,7 @@
 import { Check } from "lucide-react";
+import type { PricingPlan } from "@/lib/content";
 
-type Plan = {
-  name: string;
-  tagline: string;
-  price: string;
-  period: string;
-  highlighted?: boolean;
-  features: string[];
-};
-
-const PLANS: Plan[] = [
-  {
-    name: "Basic",
-    tagline: "เหมาะสำหรับสนามเดี่ยวที่เริ่มต้นใช้งานระบบออนไลน์",
-    price: "1,990",
-    period: "บาท / เดือน",
-    features: [
-      "ระบบจองสนามออนไลน์ 24 ชม.",
-      "รองรับ 1 สาขา",
-      "ชำระเงินผ่าน PromptPay / โอนเงิน",
-      "Login ด้วย LINE และ Google",
-      "แดชบอร์ดหลังบ้านพื้นฐาน",
-    ],
-  },
-  {
-    name: "Pro",
-    tagline: "สำหรับสนามที่ต้องการบริหารจัดการครบวงจร",
-    price: "3,990",
-    period: "บาท / เดือน",
-    highlighted: true,
-    features: [
-      "ทุกฟีเจอร์ในแพ็กเกจ Basic",
-      "รองรับสูงสุด 3 สาขา",
-      "ระบบ POS หน้าร้าน",
-      "CRM และรายงาน Analytics",
-      "จัดการสิทธิ์ Admin / Staff / Owner",
-      "รองรับกีฬาครบ 11 ประเภท",
-    ],
-  },
-  {
-    name: "Enterprise",
-    tagline: "สำหรับเชนสนามกีฬาหรือธุรกิจหลายสาขาขนาดใหญ่",
-    price: "ติดต่อเรา",
-    period: "ออกแบบราคาตามการใช้งาน",
-    features: [
-      "ทุกฟีเจอร์ในแพ็กเกจ Pro",
-      "รองรับหลายสาขาไม่จำกัด",
-      "ระบบ Analytics และรายงานขั้นสูง",
-      "ทีมงานช่วยติดตั้งและอบรมการใช้งาน",
-      "ผู้ดูแลระบบเฉพาะ (Dedicated Support)",
-      "ปรับแต่งฟีเจอร์ตามความต้องการ",
-    ],
-  },
-];
-
-export default function Pricing() {
+export default function Pricing({ plans }: { plans: PricingPlan[] }) {
   return (
     <section id="pricing" className="bg-slate-50 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -71,9 +18,9 @@ export default function Pricing() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
-          {PLANS.map((plan) => (
+          {plans.map((plan) => (
             <div
-              key={plan.name}
+              key={plan.id}
               className={`relative flex flex-col rounded-3xl border p-8 ${
                 plan.highlighted
                   ? "border-primary bg-white shadow-2xl shadow-primary/20 lg:-translate-y-4"
@@ -110,8 +57,8 @@ export default function Pricing() {
               <p className="mt-1 text-sm text-slate-500">{plan.period}</p>
 
               <ul className="mt-8 flex-1 space-y-3">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-3">
                     <span
                       className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full ${
                         plan.highlighted

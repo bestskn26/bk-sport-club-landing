@@ -1,8 +1,13 @@
 import { Mail, MapPin, Phone, Trophy } from "lucide-react";
+import type { ContactContent } from "@/lib/content";
 
 const currentYear = new Date().getFullYear();
 
-export default function Footer() {
+function telHref(phone: string) {
+  return `tel:${phone.replace(/[^0-9+]/g, "")}`;
+}
+
+export default function Footer({ contact }: { contact: ContactContent }) {
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-slate-300">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
@@ -72,17 +77,20 @@ export default function Footer() {
             <ul className="mt-4 space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Phone size={15} />
-                <a href="tel:020000000" className="transition hover:text-white">
-                  02-000-0000
+                <a
+                  href={telHref(contact.phone)}
+                  className="transition hover:text-white"
+                >
+                  {contact.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={15} />
                 <a
-                  href="mailto:sales@bksportclub.com"
+                  href={`mailto:${contact.email}`}
                   className="transition hover:text-white"
                 >
-                  sales@bksportclub.com
+                  {contact.email}
                 </a>
               </li>
               <li className="flex items-center gap-2">

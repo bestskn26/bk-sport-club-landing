@@ -4,18 +4,23 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Pricing from "@/components/Pricing";
+import { readContent } from "@/lib/content";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const content = await readContent();
+
   return (
     <>
       <Navbar />
       <main className="flex-1">
-        <Hero />
-        <Features />
-        <Pricing />
-        <ContactSection />
+        <Hero hero={content.hero} />
+        <Features features={content.features} />
+        <Pricing plans={content.pricing} />
+        <ContactSection contact={content.contact} />
       </main>
-      <Footer />
+      <Footer contact={content.contact} />
     </>
   );
 }

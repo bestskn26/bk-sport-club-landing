@@ -1,7 +1,8 @@
 import { ArrowRight, Phone, Star } from "lucide-react";
 import CourtIllustration from "./CourtIllustration";
+import type { HeroContent } from "@/lib/content";
 
-export default function Hero() {
+export default function Hero({ hero }: { hero: HeroContent }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-white via-white to-primary/5 pt-16 pb-20 sm:pt-24 sm:pb-28">
       <div
@@ -21,33 +22,29 @@ export default function Hero() {
           </div>
 
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-            <span className="text-primary">BK Sport Club</span>
+            <span className="text-primary">{hero.brandName}</span>
             <br />
-            ระบบจองสนามกีฬา
-            <br />
-            ออนไลน์ครบวงจร
+            {hero.tagline}
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
-            บริหารสนามกีฬาของคุณอย่างมืออาชีพ ลูกค้าจองและชำระเงินได้เอง 24
-            ชั่วโมง พร้อมระบบหลังบ้านครบวงจรสำหรับเจ้าของสนาม ผู้ดูแล และ
-            พนักงาน รองรับกีฬากว่า 11 ประเภท
+            {hero.description}
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <a
-              href="#demo"
+              href={hero.primaryCta.href}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary-dark"
             >
-              ขอ Demo ฟรี
+              {hero.primaryCta.label}
               <ArrowRight size={18} />
             </a>
             <a
-              href="#contact"
+              href={hero.secondaryCta.href}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-primary/30 hover:text-primary"
             >
               <Phone size={18} />
-              ติดต่อเรา
+              {hero.secondaryCta.label}
             </a>
           </div>
 

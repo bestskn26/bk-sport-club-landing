@@ -1,7 +1,16 @@
 import { Mail, MessageCircle, Phone, QrCode } from "lucide-react";
 import ContactForm from "./ContactForm";
+import type { ContactContent } from "@/lib/content";
 
-export default function ContactSection() {
+function telHref(phone: string) {
+  return `tel:${phone.replace(/[^0-9+]/g, "")}`;
+}
+
+export default function ContactSection({
+  contact,
+}: {
+  contact: ContactContent;
+}) {
   return (
     <section id="contact" className="bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -38,7 +47,7 @@ export default function ContactSection() {
                   <p className="text-xs uppercase tracking-wide text-white/60">
                     LINE Official Account
                   </p>
-                  <p className="mt-1 text-lg font-bold">@bksportclub</p>
+                  <p className="mt-1 text-lg font-bold">{contact.lineId}</p>
                   <p className="mt-1 text-xs text-white/70">
                     (ตัวอย่าง QR — แทนที่ด้วยของจริงก่อนเผยแพร่)
                   </p>
@@ -50,7 +59,7 @@ export default function ContactSection() {
               <h3 className="text-lg font-bold text-slate-900">ช่องทางติดต่ออื่นๆ</h3>
               <div className="mt-6 space-y-4">
                 <a
-                  href="tel:020000000"
+                  href={telHref(contact.phone)}
                   className="flex items-center gap-4 rounded-xl p-2 transition hover:bg-slate-50"
                 >
                   <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -58,11 +67,13 @@ export default function ContactSection() {
                   </span>
                   <div>
                     <p className="text-sm text-slate-500">โทรหาเรา</p>
-                    <p className="font-semibold text-slate-900">02-000-0000</p>
+                    <p className="font-semibold text-slate-900">
+                      {contact.phone}
+                    </p>
                   </div>
                 </a>
                 <a
-                  href="mailto:sales@bksportclub.com"
+                  href={`mailto:${contact.email}`}
                   className="flex items-center gap-4 rounded-xl p-2 transition hover:bg-slate-50"
                 >
                   <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -71,7 +82,7 @@ export default function ContactSection() {
                   <div>
                     <p className="text-sm text-slate-500">อีเมล</p>
                     <p className="font-semibold text-slate-900">
-                      sales@bksportclub.com
+                      {contact.email}
                     </p>
                   </div>
                 </a>
@@ -82,7 +93,7 @@ export default function ContactSection() {
                   <div>
                     <p className="text-sm text-slate-500">เวลาทำการ</p>
                     <p className="font-semibold text-slate-900">
-                      จันทร์–เสาร์ 9:00–18:00 น.
+                      {contact.businessHours}
                     </p>
                   </div>
                 </div>

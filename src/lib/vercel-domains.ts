@@ -2,9 +2,9 @@ const VERCEL_API_BASE = "https://api.vercel.com";
 
 function getCredentials() {
   const token = process.env.VERCEL_API_TOKEN;
-  const projectId = process.env.VERCEL_PROJECT_ID;
+  const projectId = process.env.TARGET_PROJECT_ID;
 
-  console.log("[vercel-domains] process.env.VERCEL_PROJECT_ID =", projectId);
+  console.log("[vercel-domains] process.env.TARGET_PROJECT_ID =", projectId);
   console.log(
     "[vercel-domains] process.env.VERCEL_API_TOKEN is set =",
     Boolean(token),
@@ -13,7 +13,7 @@ function getCredentials() {
 
   if (!token || !projectId) {
     throw new Error(
-      "ยังไม่ได้ตั้งค่า VERCEL_API_TOKEN / VERCEL_PROJECT_ID",
+      "ยังไม่ได้ตั้งค่า VERCEL_API_TOKEN / TARGET_PROJECT_ID",
     );
   }
 

@@ -38,6 +38,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  console.log(
+    "[api/admin/subdomains] POST — process.env.VERCEL_PROJECT_ID =",
+    process.env.VERCEL_PROJECT_ID,
+  );
+
   const body = (await request.json().catch(() => null)) as {
     subdomain?: string;
   } | null;
@@ -121,6 +126,11 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  console.log(
+    "[api/admin/subdomains] DELETE — process.env.VERCEL_PROJECT_ID =",
+    process.env.VERCEL_PROJECT_ID,
+  );
+
   const body = (await request.json().catch(() => null)) as {
     subdomain?: string;
   } | null;

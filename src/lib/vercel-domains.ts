@@ -4,6 +4,13 @@ function getCredentials() {
   const token = process.env.VERCEL_API_TOKEN;
   const projectId = process.env.VERCEL_PROJECT_ID;
 
+  console.log("[vercel-domains] process.env.VERCEL_PROJECT_ID =", projectId);
+  console.log(
+    "[vercel-domains] process.env.VERCEL_API_TOKEN is set =",
+    Boolean(token),
+    token ? `(starts with "${token.slice(0, 6)}...")` : "",
+  );
+
   if (!token || !projectId) {
     throw new Error(
       "ยังไม่ได้ตั้งค่า VERCEL_API_TOKEN / VERCEL_PROJECT_ID",
@@ -21,6 +28,10 @@ export type VercelDomainStatus = {
 
 export async function addProjectDomain(fqdn: string): Promise<void> {
   const { token, projectId } = getCredentials();
+
+  console.log(
+    `[vercel-domains] Adding domain "${fqdn}" to Vercel project "${projectId}"`,
+  );
 
   const res = await fetch(
     `${VERCEL_API_BASE}/v10/projects/${projectId}/domains`,
@@ -44,6 +55,10 @@ export async function addProjectDomain(fqdn: string): Promise<void> {
 
 export async function removeProjectDomain(fqdn: string): Promise<void> {
   const { token, projectId } = getCredentials();
+
+  console.log(
+    `[vercel-domains] Removing domain "${fqdn}" from Vercel project "${projectId}"`,
+  );
 
   const res = await fetch(
     `${VERCEL_API_BASE}/v9/projects/${projectId}/domains/${fqdn}`,

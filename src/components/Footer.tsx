@@ -19,7 +19,7 @@ export default function Footer({
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-slate-300">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-3">
           <div>
             <a href="#" className="flex items-center gap-2">
               {logoUrl ? (
@@ -69,22 +69,6 @@ export default function Footer({
               <li>
                 <a href="#contact" className="transition hover:text-white">
                   ติดต่อเรา
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white">
-              ระบบจองสำหรับลูกค้า
-            </h4>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li>
-                <a
-                  href="https://app.bksportclub.com"
-                  className="transition hover:text-white"
-                >
-                  app.bksportclub.com
                 </a>
               </li>
             </ul>

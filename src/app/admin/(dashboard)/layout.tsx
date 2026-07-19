@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import {
   ExternalLink,
+  Globe,
   Image as ImageIcon,
   LayoutDashboard,
   LogOut,
@@ -12,6 +13,7 @@ import {
 const NAV_ITEMS = [
   { href: "/admin", label: "เนื้อหาเว็บไซต์", icon: LayoutDashboard },
   { href: "/admin/settings", label: "Logo & Favicon", icon: ImageIcon },
+  { href: "/admin/subdomains", label: "จัดการ Subdomain", icon: Globe },
 ] as const;
 
 export default function AdminDashboardLayout({
